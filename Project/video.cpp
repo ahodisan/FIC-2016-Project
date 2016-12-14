@@ -10,6 +10,9 @@
 #include <sys/socket.h>
 #include <netdb.h>
 #include <arpa/inet.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <netinet/in.h>
 
 using namespace std;
 using namespace cv;
@@ -248,12 +251,61 @@ int main(int argc, char* argv[])
 	//start an infinite loop where webcam feed is copied to cameraFeed matrix
 	//all of our operations will be performed within this loop
  
- 
-  int sockfd;
-  sockfd = socket(AF_INET, SOCK_STREAM, 0);
+  /* struct sockaddr_in dest_addr;
+   int sockfd;
+   sockfd = socket(AF_INET, SOCK_STREAM, 0);
+  if(socket<0)
+  {
+    cout<<("eroare");
+    exit(1);
+  }
+	 dest_addr.sin_family=AF_INET;
+   dest_addr.sin_port=htons(20231);
+   dest_addr.sin_port=htons(20232);
+   dest_addr.sin_addr.s_addr=inet_addr("193.226.12.217");
+   dest_addr.sin_zero[8]='\0';
+   
+   if(connect(sockfd,(struct sockaddr*)&dest_addr,sizeof(struct sockaddr))<0)
+   if(socket<0)
+  {
+    cout<<("eroare");
+    exit(1);
+  }
+   char msg[200];
+   strcpy(msg,"l");
+   int w = write(sockfd,msg,strlen(msg));
+   */
+   
+    int sockfd, portno, n;
+    struct sockaddr_in serv_addr;
+    struct hostent *server;
 
-	
-	while (1) {
+    char buffer[256];
+    portno = 20231;
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    if (sockfd < 0) 
+       // error("ERROR opening socket");
+      { cout<<("error");
+      exit(1);}
+    server = gethostbyname("193.226.12.217");
+    if (server == NULL) {
+        fprintf(stderr,"ERROR, no such host\n");
+        exit(0);
+    }
+    bzero((char *) &serv_addr, sizeof(serv_addr));
+    serv_addr.sin_family = AF_INET;
+    bcopy((char *)server->h_addr,(char *)&serv_addr.sin_addr.s_addr,server->h_length);
+    serv_addr.sin_port = htons(portno);
+    if (connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) 
+    { cout<<("error connecting");
+      exit(1);}
+        
+    strcpy(buffer,"r\ns");
+    n = write(sockfd, buffer, strlen(buffer));
+    if (n < 0) 
+          { cout<<("error write");
+      exit(1);}
+   while (1) {
 
 
 		//store image to matrix
