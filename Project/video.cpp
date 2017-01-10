@@ -214,10 +214,6 @@ void trackFilteredObject(int &x, int &y, Mat threshold, Mat &cameraFeed) {
 	}
 }
 
-void create_socket()
-{
-	
-}
 
 void send_command(int sockfd , char comanda)
 {
@@ -258,8 +254,8 @@ int main(int argc, char* argv[])
 	//x and y values for the location of the object
 	int x = 0, y = 0;
 
-    int x_1 = 0, y_1 = 0;
-    int x_2 = 0, y_2 = 0;
+    int x_1 = 0, y_1 = 0; // us
+    int x_2 = 0, y_2 = 0; // enemies
     int x_3 = 0, y_3 = 0;
 	
 	//create slider bars for HSV filtering
