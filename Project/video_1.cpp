@@ -251,30 +251,7 @@ int main(int argc, char* argv[])
 	//start an infinite loop where webcam feed is copied to cameraFeed matrix
 	//all of our operations will be performed within this loop
  
-  /* struct sockaddr_in dest_addr;
-   int sockfd;
-   sockfd = socket(AF_INET, SOCK_STREAM, 0);
-  if(socket<0)
-  {
-    cout<<("eroare");
-    exit(1);
-  }
-	 dest_addr.sin_family=AF_INET;
-   dest_addr.sin_port=htons(20231);
-   dest_addr.sin_port=htons(20232);
-   dest_addr.sin_addr.s_addr=inet_addr("193.226.12.217");
-   dest_addr.sin_zero[8]='\0';
-   
-   if(connect(sockfd,(struct sockaddr*)&dest_addr,sizeof(struct sockaddr))<0)
-   if(socket<0)
-  {
-    cout<<("eroare");
-    exit(1);
-  }
-   char msg[200];
-   strcpy(msg,"l");
-   int w = write(sockfd,msg,strlen(msg));
-   */
+  
    
     int sockfd, portno, n;
     struct sockaddr_in serv_addr;
