@@ -258,9 +258,9 @@ int main(int argc, char* argv[])
 	//x and y values for the location of the object
 	int x = 0, y = 0;
 
-    int x_B = 0, y_B = 0;
-    int x_G = 0, y_G = 0;
-    int x_R = 0, y_R = 0;
+    int x_1 = 0, y_1 = 0;
+    int x_2 = 0, y_2 = 0;
+    int x_3 = 0, y_3 = 0;
 	
 	//create slider bars for HSV filtering
 	createTrackbars();
@@ -358,20 +358,20 @@ int main(int argc, char* argv[])
 	   //inRange(HSV, Scalar(B_H_MIN, B_S_MIN, B_V_MIN), Scalar(B_H_MAX, B_S_MAX, B_V_MAX), thresholdB);
       
 
-         if (useMorphOps)
+         /*if (useMorphOps)
       			morphOps(thresholdB);
       		if (trackObjects)
-      			trackFilteredObject(x_B, y_B, thresholdB, cameraFeed);
+      			trackFilteredObject(x_3, y_3, thresholdB, cameraFeed);*/
 
          if (useMorphOps)
       			morphOps(thresholdR);
       		if (trackObjects)
-      			trackFilteredObject(x_R, y_R, thresholdR, cameraFeed);
+      			trackFilteredObject(x_1, y_1, thresholdR, cameraFeed);
 
          if (useMorphOps)
       			morphOps(thresholdG);
       		if (trackObjects)
-      			trackFilteredObject(x_G, y_G, thresholdG, cameraFeed);
+      			trackFilteredObject(x_2, y_2, thresholdG, cameraFeed);
 
       		//show frames
       	imshow(windowName, cameraFeed);
