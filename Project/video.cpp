@@ -379,6 +379,8 @@ int main(int argc, char* argv[])
       	//image will not appear without this waitKey() command
       	waitKey(30);
 	    }
+	//we are still in the infinite loop
+	   
   }
 
 	return 0;
