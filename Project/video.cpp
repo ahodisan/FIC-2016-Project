@@ -218,7 +218,7 @@ void trackFilteredObject(int &x, int &y, Mat threshold, Mat &cameraFeed) {
 void send_command(int sockfd , char comanda)
 {
 	int n;
-	char buffer;
+	char buffer[256];
 	bzero(buffer,256);
 	buffer[0]=comanda;
 	n = write(sockfd, buffer, strlen(buffer));
