@@ -34,12 +34,12 @@ int V_MAX = 256;
 #define B_V_MAX 256
 
 
-#define R_H_MIN 109
-#define R_H_MAX 186
-#define R_S_MIN 80
-#define R_S_MAX 237
-#define R_V_MIN 215
-#define R_V_MAX 256
+#define R_H_MIN 0//109
+#define R_H_MAX 43//186
+#define R_S_MIN 130//80
+#define R_S_MAX 244//237
+#define R_V_MIN 63//215
+#define R_V_MAX 256//256
 
 
 #define G_H_MIN 49
@@ -219,13 +219,17 @@ void send_command(int sockfd , char comanda)
 {
 	int n;
 	char buffer[256];
-	bzero(buffer,256);
-	buffer[0]=comanda;
-	n = write(sockfd, buffer, strlen(buffer));
-    if (n < 0){ 
-	  cout<<"error write";
-      exit(1);}
-	printf("%s",buffer);
+    	bzero(buffer,256);
+    	strcpy(buffer, &comanda);
+    	n = write(sockfd, buffer, strlen(buffer));
+    	if (n < 0) 
+         	cout<<("ERROR writing to socket");
+    	bzero(buffer,256);
+    	n = read(sockfd, buffer, 255);
+    	if (n < 0) 
+         	cout<<("ERROR reading from socket");
+    	printf("Received: %s\n", buffer);
+ 
 }
 
 
@@ -306,7 +310,8 @@ int main(int argc, char* argv[])
     }
 
 	//sending command
-	send_command(sockfd, 'f');
+	//send_command(sockfd, 'f');
+  //send_command(sockfd, 's');
 
    while (1) {
 	//store image to matrix
@@ -342,7 +347,7 @@ int main(int argc, char* argv[])
 			imshow(windowName1, HSV);
 		*/
 		
-		//
+		
 		
 		//rosu
 		 inRange(HSV, Scalar(R_H_MIN, R_S_MIN, R_V_MIN), Scalar(R_H_MAX, R_S_MAX, R_V_MAX), thresholdR);
@@ -351,13 +356,13 @@ int main(int argc, char* argv[])
 	     inRange(HSV, Scalar(G_H_MIN, G_S_MIN, G_V_MIN), Scalar(G_H_MAX, G_S_MAX, G_V_MAX), thresholdG);
        
 		//albastru
-	   //inRange(HSV, Scalar(B_H_MIN, B_S_MIN, B_V_MIN), Scalar(B_H_MAX, B_S_MAX, B_V_MAX), thresholdB);
+	   inRange(HSV, Scalar(B_H_MIN, B_S_MIN, B_V_MIN), Scalar(B_H_MAX, B_S_MAX, B_V_MAX), thresholdB);
       
 
-         /*if (useMorphOps)
+         if (useMorphOps)
       			morphOps(thresholdB);
       		if (trackObjects)
-      			trackFilteredObject(x_3, y_3, thresholdB, cameraFeed);*/
+      			trackFilteredObject(x_3, y_3, thresholdB, cameraFeed);
 
          if (useMorphOps)
       			morphOps(thresholdR);
@@ -369,10 +374,19 @@ int main(int argc, char* argv[])
       		if (trackObjects)
       			trackFilteredObject(x_2, y_2, thresholdG, cameraFeed);
 
+
+          printf("rosu: %d %d\n",x_1,y_1);
+          printf("verde: %d %d\n",x_2,y_2);
+          printf("albastru: %d %d\n",x_3,y_3);
       		//show frames
       	imshow(windowName, cameraFeed);
 			
-		//
+		    send_command(sockfd, 'f');
+        waitKey(3000);
+        send_command(sockfd, 'b');
+        waitKey(500);
+        send_command(sockfd, 'f');
+            
 			
       	setMouseCallback("Original Image", on_mouse, &p);
       	//delay 30ms so that screen can refresh.
